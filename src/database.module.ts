@@ -17,7 +17,7 @@ const databaseProvider = {
             entities: [
                 __dirname + '/../dist/*.entity.js'
             ],
-            logging: true
+            logging: false
         });
     }
 }
