@@ -7,10 +7,10 @@ export class ProductService {
 
     private readonly fullTextSearchColumns = [
         'name',
+        'description',
         'meta_title',
         'meta_description',
-        'meta_keyword',
-        'description'
+        'meta_keyword'
     ];
 
     constructor(
@@ -21,13 +21,19 @@ export class ProductService {
     async fullTextSearch(keyword: string): Promise<Product[]> {
         console.log(this.fullTextSearchColumns.join(","));
 
-        return this.productRepository
+        if (!keyword) {
+            return this.productRepository.find();
+        }
+        else {
+            return this.productRepository
             .createQueryBuilder()
             .select()
-            .where(`MATCH(${this.fullTextSearchColumns.join(" ,")}) AGAINST ("${keyword}" IN NATURAL LANGUAGE MODE)`)
+            .where(`MATCH(${this.fullTextSearchColumns.join(",")}) AGAINST (:keyword IN NATURAL LANGUAGE MODE)`)
             .limit(20)
+            .setParameters({
+                keyword
+            })
             .getMany();
-
-        // return this.productRepository.find();
+        }
     }
 }

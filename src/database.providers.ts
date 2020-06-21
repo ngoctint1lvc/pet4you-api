@@ -14,7 +14,7 @@ export const databaseProviders = [
                 entities: [
                     __dirname + '/../dist/*.entity.js'
                 ],
-                synchronize: true,
+                logging: true
             });
         }
     },
