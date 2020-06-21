@@ -15,7 +15,7 @@ export class AppService {
       let imageUrl = await this.productService.getImageUrl(product.product_id);
       return {
         ...product,
-        image_url: imageUrl
+        image_url: "https://pet4you.cf/image/" + imageUrl
       }
     }));
   }
