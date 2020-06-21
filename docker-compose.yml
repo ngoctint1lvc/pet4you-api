@@ -5,7 +5,7 @@ services:
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: "${DB_PASSWORD}"
-    command: --default-authentication-plugin=mysql_native_password
+    command: --default-authentication-plugin=mysql_native_password --ft_min_word_len=1
     volumes:
       - opencart-data:/var/lib/mysql
       - ./mysql/opencart.sql:/opencart.sql
