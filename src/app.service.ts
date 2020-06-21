@@ -6,10 +6,18 @@ export class AppService {
 
   constructor(
     private productService: ProductService,
-  ) {}
+  ) { }
 
-  searchProducts(keyword: string) {
-    return this.productService.fullTextSearch(keyword);
+  async searchProducts(keyword: string) {
+    let products = await this.productService.fullTextSearch(keyword);
+
+    return await Promise.all(products.map(async product => {
+      let imageUrl = await this.productService.getImageUrl(product.product_id);
+      return {
+        ...product,
+        image_url: imageUrl
+      }
+    }));
   }
 
 }
