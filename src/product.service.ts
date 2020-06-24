@@ -1,7 +1,7 @@
 import { Injectable, Inject } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { Product } from './product.entity';
-import { ProductImage } from './product_image.entity';
+import { ProductInfo } from './product_info.entity';
 
 @Injectable()
 export class ProductService {
@@ -17,8 +17,8 @@ export class ProductService {
     constructor(
         @Inject('PRODUCT_REPOSITORY')
         private productRepository: Repository<Product>,
-        @Inject('PRODUCT_IMAGE_REPOSITORY')
-        private productImageRepository: Repository<ProductImage>
+        @Inject('PRODUCT_INFO_REPOSITORY')
+        private productInfoRepository: Repository<ProductInfo>
     ) { }
 
     async fullTextSearch(keyword: string): Promise<Product[]> {
@@ -40,10 +40,17 @@ export class ProductService {
         }
     }
 
-    async getImageUrl(productId: number): Promise<string> {
-        let image = await this.productImageRepository
-            .findOne(productId);
+    async getProductExtraInfo(productId: number) {
+        let product = await this.productInfoRepository.findOne(productId);
 
-        return image.imageUrl || "";
+        if (!product) return {
+            imageUrl: "",
+            price: 0    
+        }
+
+        return {
+            image: product.imageUrl? "https://pet4you.cf/image/" + product.imageUrl: "",
+            price: product.price
+        }
     }
 }

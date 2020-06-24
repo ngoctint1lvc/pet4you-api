@@ -12,10 +12,10 @@ export class AppService {
     let products = await this.productService.fullTextSearch(keyword);
 
     return await Promise.all(products.map(async product => {
-      let imageUrl = await this.productService.getImageUrl(product.product_id);
+      let productInfo = await this.productService.getProductExtraInfo(product.product_id);
       return {
         ...product,
-        image_url: "https://pet4you.cf/image/" + imageUrl
+        ...productInfo
       }
     }));
   }

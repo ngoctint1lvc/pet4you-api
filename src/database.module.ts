@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { ProductService } from './product.service';
 import { Connection, createConnection } from 'typeorm';
 import { Product } from './product.entity';
-import { ProductImage } from './product_image.entity';
+import { ProductInfo } from './product_info.entity';
 
 const databaseProvider = {
     provide: 'DATABASE_CONNECTION',
@@ -29,8 +29,8 @@ const productProvider = {
 }
 
 const productImageProvider = {
-    provide: 'PRODUCT_IMAGE_REPOSITORY',
-    useFactory: (connection: Connection) => connection.getRepository(ProductImage),
+    provide: 'PRODUCT_INFO_REPOSITORY',
+    useFactory: (connection: Connection) => connection.getRepository(ProductInfo),
     inject: ['DATABASE_CONNECTION'],
 }
 
